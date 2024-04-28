@@ -5,36 +5,21 @@ const OUTCOMES = [
 ]
 
 function playGame(remainingRounds = 5, score = 0) {
-    if (remainingRounds === 0) {
-        declareWinner(score);
+    if (remainingRounds == 0) {
+        console.log(`Final score: ${score}. ${declareWinner(score)}`)
     } else {
         playGame(remainingRounds -= 1, score+= playRound())
     }
 }
 
 function playRound() {
-    return getOutcome(getHumanChoice(), getComputerChoice());
-}
-
-function getHumanChoice() {
-    return prompt("Choose your weapon: 1: Rock, 2: Paper, 3: Scissors") - 1;
-}
-
-function getComputerChoice() {
-    return Math.floor(Math.random() * 3);
-}
-
-function getOutcome(humanChoice, computerChoice) {
+    const humanChoice = prompt("Choose your weapon: 1: Rock, 2: Paper, 3: Scissors") - 1;
+    const computerChoice = Math.floor(Math.random() * 3);
     return OUTCOMES[humanChoice][computerChoice];
 }
 
 function declareWinner(score) {
-    console.log(`Final score: ${score}`)
-    if (score === 0) {
-        console.log("It's a tie!");
-    } else if (score > 0) {
-        console.log("Go humans!");
-    } else {
-        console.log("1011010101");
-    }
+    if (score == 0) return "It's a tie!";
+    if (score > 0) return "Humans win!";
+    if (score < 0) return "Robots win!";
 }
