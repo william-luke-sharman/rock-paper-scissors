@@ -4,11 +4,11 @@ const OUTCOMES = [
     [-1,1,0]
 ]
 
-function playGame(round = 0, score = 0) {
-    if (round === 5) {
+function playGame(remainingRounds = 5, score = 0) {
+    if (remainingRounds === 0) {
         declareWinner(score);
     } else {
-        playGame(round += 1, score+= playRound())
+        playGame(remainingRounds -= 1, score+= playRound())
     }
 }
 
