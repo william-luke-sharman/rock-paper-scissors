@@ -1,53 +1,38 @@
-const CHOICES = ["Rock", "Paper", "Scissors"];
+const OUTCOMES = [
+    [0,-1,1],
+    [1,0,-1],
+    [-1,1,0]
+]
 
-function playGame() {
-    let scores = [0, 0];
-
-    for (let i = 0; i < 2; i++) {
-        scores = playRound(scores);
+function playGame(round = 0, score = 0) {
+    if (round === 5) {
+        declareWinner(score);
+    } else {
+        playGame(round += 1, score+= playRound())
     }
-
-    declareGameWinner(scores);
 }
 
-function playRound(scores) {
-    const humanChoice = getHumanChoice();
-    const computerChoice = getComputerChoice();
-    const winner = decideWinner(humanChoice, computerChoice);
-    const updatedScores = updateScores(winner, scores);
-    return updatedScores;
+function playRound() {
+    return getOutcome(getHumanChoice(), getComputerChoice());
 }
 
 function getHumanChoice() {
-    const chosenNumber = prompt("Choose your weapon: 1: Rock, 2: Paper, 3: Scissors");
-    const choice = CHOICES[chosenNumber - 1];
-    return choice;
+    return prompt("Choose your weapon: 1: Rock, 2: Paper, 3: Scissors") - 1;
 }
 
 function getComputerChoice() {
-    const randomNumber = Math.floor(Math.random() * 3);
-    const choice = CHOICES[randomNumber];
-    return choice;
+    return Math.floor(Math.random() * 3);
 }
 
-function decideWinner(humanChoice, computerChoice) {
-    if (humanChoice === computerChoice) return "Tie";
-    if (humanChoice === "Rock" && computerChoice === "Scissors") return "Human";
-    if (humanChoice === "Scissors" && computerChoice === "Paper") return "Human";
-    if (humanChoice === "Paper" && computerChoice === "Rock") return "Human";
-    return "Computer";
+function getOutcome(humanChoice, computerChoice) {
+    return OUTCOMES[humanChoice][computerChoice];
 }
 
-function updateScores(winner, [humanScore, computerScore]) {
-    if (winner === "Tie") return [humanScore, computerScore];
-    if (winner === "Human") return [humanScore + 1, computerScore];
-    if (winner === "Computer") return [humanScore, computerScore + 1];
-}
-
-function declareGameWinner([humanScore, computerScore]) {
-    if (humanScore === computerScore) {
+function declareWinner(score) {
+    console.log(`Final score: ${score}`)
+    if (score === 0) {
         console.log("It's a tie!");
-    } else if (humanScore > computerScore) {
+    } else if (score > 0) {
         console.log("Go humans!");
     } else {
         console.log("1011010101");
