@@ -4,6 +4,7 @@ const OUTCOMES = [
     [-1,1,0]
 ]
 
+
 function playGame(remainingRounds = 5, score = 0) {
     if (remainingRounds == 0) {
         console.log(`Final score: ${score}. ${declareWinner(score)}`)
