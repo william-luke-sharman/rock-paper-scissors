@@ -1,26 +1,32 @@
+const buttons = document.querySelectorAll("button");
+const humanScore = document.querySelector("#human-score");
+const computerScore = document.querySelector("#computer-score");
 const OUTCOMES = [
     [0,-1,1],
     [1,0,-1],
     [-1,1,0]
 ]
 
+buttons.forEach((button) => {
+    button.addEventListener("click", playRound)
+})
 
-function playGame(remainingRounds = 5, score = 0) {
-    if (remainingRounds == 0) {
-        console.log(`Final score: ${score}. ${declareWinner(score)}`)
-    } else {
-        playGame(remainingRounds -= 1, score+= playRound())
+function playRound() {
+    const humanChoice = parseInt(this.id);
+    const computerChoice = Math.floor(Math.random() * 3);
+    const outcome = OUTCOMES[humanChoice][computerChoice];
+    switch(outcome) {
+        case 1: updateScore(humanScore); break;
+        case -1: updateScore(computerScore); break;
     }
 }
 
-function playRound() {
-    const humanChoice = prompt("Choose your weapon: 1: Rock, 2: Paper, 3: Scissors") - 1;
-    const computerChoice = Math.floor(Math.random() * 3);
-    return OUTCOMES[humanChoice][computerChoice];
+function updateScore(winner) {
+    const newScore = parseInt(winner.textContent) + 1;
+    winner.textContent = newScore;
+    if (newScore == 5) {declareWinner(winner);}
 }
 
-function declareWinner(score) {
-    if (score == 0) return "It's a tie!";
-    if (score > 0) return "Humans win!";
-    if (score < 0) return "Robots win!";
+function declareWinner(winner) {
+   alert("GET IN SON!");
 }
